@@ -5148,482 +5148,6 @@ button, input, textarea, select { box-sizing: border-box; }
 }
 
 /* =========================================================
-   HERO VIDEO — KIDS PLAYING WITH TOYS
-   Added without removing the existing IDEALS design
-========================================================= */
-
-.hero-video-wrapper {
-  position: absolute !important;
-  inset: 20px !important;
-  overflow: hidden !important;
-  border-radius: 38% 38% 20% 20% !important;
-  border: 8px solid var(--white) !important;
-  background: #eaf5f8 !important;
-  box-shadow:
-    0 25px 55px rgba(32, 32, 45, 0.14),
-    0 10px 30px rgba(32, 32, 45, 0.08) !important;
-  isolation: isolate;
-}
-
-.hero-video {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  display: block !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  max-width: none !important;
-  transform: scale(1.01);
-  filter: saturate(1.08) contrast(1.03);
-  transition: transform 0.8s ease;
-}
-
-.hero-video-wrapper:hover .hero-video {
-  transform: scale(1.055);
-}
-
-.hero-video-overlay {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 2 !important;
-  pointer-events: none !important;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02) 0%,
-    transparent 48%,
-    rgba(20, 20, 30, 0.18) 100%
-  ) !important;
-}
-
-.hero-video-play {
-  position: absolute !important;
-  left: 50% !important;
-  top: 50% !important;
-  z-index: 5 !important;
-  width: 62px !important;
-  height: 62px !important;
-  transform: translate(-50%, -50%) !important;
-  display: grid !important;
-  place-items: center !important;
-  border-radius: 50% !important;
-  background: rgba(255, 255, 255, 0.94) !important;
-  color: var(--dark) !important;
-  box-shadow:
-    0 12px 35px rgba(32, 32, 45, 0.2),
-    0 0 0 9px rgba(255, 255, 255, 0.18) !important;
-  pointer-events: none !important;
-  animation: idealsVideoPulse 2.2s ease-in-out infinite;
-}
-
-.hero-video-play svg {
-  margin-left: 3px;
-}
-
-@keyframes idealsVideoPulse {
-  0%,
-  100% {
-    box-shadow:
-      0 12px 35px rgba(32, 32, 45, 0.2),
-      0 0 0 8px rgba(255, 255, 255, 0.15);
-  }
-
-  50% {
-    box-shadow:
-      0 15px 42px rgba(32, 32, 45, 0.2),
-      0 0 0 14px rgba(255, 255, 255, 0.07);
-  }
-}
-
-.hero-video-label {
-  position: absolute !important;
-  left: 18px !important;
-  top: 18px !important;
-  z-index: 6 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 7px !important;
-  min-height: 30px !important;
-  padding: 0 11px !important;
-  border-radius: 30px !important;
-  background: rgba(32, 32, 45, 0.78) !important;
-  color: var(--white) !important;
-  font-size: 9px !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.08em !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.hero-video-dot {
-  width: 6px !important;
-  height: 6px !important;
-  padding: 0 !important;
-  border-radius: 50% !important;
-  background: var(--orange) !important;
-  animation: idealsVideoDot 1.5s ease-in-out infinite;
-}
-
-@keyframes idealsVideoDot {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.4;
-    transform: scale(0.8);
-  }
-}
-
-.hero-video-sound {
-  position: absolute !important;
-  right: 17px !important;
-  top: 17px !important;
-  z-index: 6 !important;
-  width: 32px !important;
-  height: 32px !important;
-  display: grid !important;
-  place-items: center !important;
-  border-radius: 50% !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: var(--dark) !important;
-  pointer-events: none !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.hero-badge,
-.hero-floating,
-.hero-dots {
-  z-index: 8 !important;
-}
-
-.hero-badge-icon {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  background: #fff7e5;
-  color: var(--orange);
-}
-
-.hero-badge-two .hero-badge-icon {
-  background: #f0f8ff;
-}
-
-.hero-badge-three .hero-badge-icon {
-  background: #effaf4;
-}
-
-/* =========================================================
-   HERO VIDEO RESPONSIVE
-========================================================= */
-
-@media (max-width: 850px) {
-  .hero-video-wrapper {
-    inset: 12px !important;
-    border-width: 6px !important;
-    border-radius: 35% 35% 20% 20% !important;
-  }
-
-  .hero-video-play {
-    width: 52px !important;
-    height: 52px !important;
-  }
-
-  .hero-video-label {
-    left: 13px !important;
-    top: 13px !important;
-  }
-
-  .hero-video-sound {
-    right: 12px !important;
-    top: 12px !important;
-  }
-}
-
-@media (max-width: 600px) {
-  .hero-video-wrapper {
-    inset: 12px !important;
-    border-width: 5px !important;
-  }
-
-  .hero-video-play {
-    width: 48px !important;
-    height: 48px !important;
-  }
-
-  .hero-video-label {
-    left: 10px !important;
-    top: 10px !important;
-    min-height: 27px !important;
-    padding: 0 9px !important;
-    font-size: 8px !important;
-  }
-
-  .hero-video-sound {
-    right: 10px !important;
-    top: 10px !important;
-    width: 28px !important;
-    height: 28px !important;
-  }
-}
-
-@media (max-width: 380px) {
-  .hero-video-wrapper {
-    inset: 9px !important;
-  }
-
-  .hero-video-play {
-    width: 43px !important;
-    height: 43px !important;
-  }
-
-  .hero-video-label {
-    display: none !important;
-  }
-}
-
-
-/* =========================================================
-   IDEALS FINAL HERO VIDEO FIX
-   - Video plays automatically
-   - Old center play button is completely removed
-   - Video fills the hero media area
-   - Existing IDEALS styling is preserved
-========================================================= */
-
-.hero-video-wrapper {
-  position: absolute !important;
-  inset: 20px !important;
-  overflow: hidden !important;
-  border-radius: 38% 38% 20% 20% !important;
-  border: 8px solid var(--white) !important;
-  background: #eaf5f8 !important;
-  box-shadow:
-    0 25px 55px rgba(32, 32, 45, 0.14),
-    0 10px 30px rgba(32, 32, 45, 0.08) !important;
-  isolation: isolate !important;
-}
-
-.hero-video {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  object-fit: cover !important;
-  object-position: center center !important;
-  max-width: none !important;
-  min-width: 100% !important;
-  min-height: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: #eaf5f8 !important;
-  transform: scale(1.01);
-  filter: saturate(1.08) contrast(1.03);
-  transition: transform 0.8s ease;
-}
-
-.hero-video-wrapper:hover .hero-video {
-  transform: scale(1.055);
-}
-
-/* Subtle visual overlay only — it cannot block the video. */
-.hero-video-overlay {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 2 !important;
-  pointer-events: none !important;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.02) 0%,
-      transparent 48%,
-      rgba(20, 20, 30, 0.18) 100%
-    ) !important;
-}
-
-/* REMOVE OLD CENTER PLAY BUTTON */
-.hero-video-play,
-.hero-video-play svg {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* Video label */
-.hero-video-label {
-  position: absolute !important;
-  left: 18px !important;
-  top: 18px !important;
-  z-index: 6 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 7px !important;
-  min-height: 30px !important;
-  padding: 0 11px !important;
-  border-radius: 30px !important;
-  background: rgba(32, 32, 45, 0.78) !important;
-  color: var(--white) !important;
-  font-size: 9px !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.08em !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  pointer-events: none !important;
-}
-
-.hero-video-dot {
-  width: 6px !important;
-  height: 6px !important;
-  padding: 0 !important;
-  border-radius: 50% !important;
-  background: var(--orange) !important;
-  animation: idealsVideoDot 1.5s ease-in-out infinite;
-}
-
-@keyframes idealsVideoDot {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.4;
-    transform: scale(0.8);
-  }
-}
-
-.hero-video-sound {
-  position: absolute !important;
-  right: 17px !important;
-  top: 17px !important;
-  z-index: 6 !important;
-  width: 32px !important;
-  height: 32px !important;
-  display: grid !important;
-  place-items: center !important;
-  border-radius: 50% !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: var(--dark) !important;
-  pointer-events: none !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.hero-badge,
-.hero-floating,
-.hero-dots {
-  z-index: 8 !important;
-}
-
-.hero-badge-icon {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  background: #fff7e5;
-  color: var(--orange);
-}
-
-.hero-badge-two .hero-badge-icon {
-  background: #f0f8ff;
-}
-
-.hero-badge-three .hero-badge-icon {
-  background: #effaf4;
-}
-
-/* =========================================================
-   HERO VIDEO RESPONSIVE
-========================================================= */
-
-@media (max-width: 850px) {
-  .hero-video-wrapper {
-    inset: 12px !important;
-    border-width: 6px !important;
-    border-radius: 35% 35% 20% 20% !important;
-  }
-
-  .hero-video {
-    object-position: center center !important;
-  }
-
-  .hero-video-label {
-    left: 13px !important;
-    top: 13px !important;
-  }
-
-  .hero-video-sound {
-    right: 12px !important;
-    top: 12px !important;
-  }
-}
-
-@media (max-width: 600px) {
-  .hero-video-wrapper {
-    inset: 12px !important;
-    border-width: 5px !important;
-  }
-
-  .hero-video-label {
-    left: 10px !important;
-    top: 10px !important;
-    min-height: 27px !important;
-    padding: 0 9px !important;
-    font-size: 8px !important;
-  }
-
-  .hero-video-sound {
-    right: 10px !important;
-    top: 10px !important;
-    width: 28px !important;
-    height: 28px !important;
-  }
-}
-
-@media (max-width: 380px) {
-  .hero-video-wrapper {
-    inset: 9px !important;
-  }
-
-  .hero-video-label {
-    display: none !important;
-  }
-}
-
-/* =========================================================
-   FINAL VIDEO VISIBILITY SAFETY
-========================================================= */
-
-.hero-video-wrapper video.hero-video {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-.hero-video-wrapper video.hero-video::-webkit-media-controls {
-  display: none !important;
-}
-
-.hero-video-wrapper video.hero-video::-webkit-media-controls-panel {
-  display: none !important;
-}
-
-
-/* =========================================================
    FINAL MOBILE DRAWER ACTION BAR
    Wishlist / Cart / Account — force clean alignment
    This override intentionally comes LAST so it wins over
@@ -7082,18 +6606,14 @@ select {
 }
 
 .hero-visual,
-.hero-video-wrap,
 .hero-media {
   min-width: 0 !important;
   max-width: 100% !important;
 }
 
-.hero-video,
-.hero-video-wrap video {
-  display: block !important;
-  width: 100% !important;
+.hero-image-wrapper,
+.hero-image-wrapper img {
   max-width: 100% !important;
-  height: 100% !important;
 }
 
 /* ---------- PRODUCT GRID ---------- */
@@ -7654,3 +7174,149 @@ body,
     max-width: none !important;
   }
 }
+
+/* =========================================================
+   IDEALS — FINAL HERO IMAGE
+   Video removed. Hero uses a static image only.
+========================================================= */
+
+.hero-image-wrapper {
+  position: absolute !important;
+  inset: 20px !important;
+  overflow: hidden !important;
+  border-radius: 38% 38% 20% 20% !important;
+  border: 8px solid var(--white) !important;
+  background: #eaf5f8 !important;
+  box-shadow:
+    0 25px 55px rgba(32, 32, 45, 0.14),
+    0 10px 30px rgba(32, 32, 45, 0.08) !important;
+  isolation: isolate !important;
+}
+
+.hero-image-wrapper img.hero-image,
+.hero-image-wrapper .hero-image {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  transform: scale(1.01);
+  filter: saturate(1.06) contrast(1.02);
+  transition: transform 0.8s ease;
+}
+
+.hero-image-wrapper:hover .hero-image {
+  transform: scale(1.055);
+}
+
+.hero-image-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 48%, rgba(20,20,30,0.12) 100%) !important;
+}
+
+.hero-image-label {
+  position: absolute !important;
+  left: 18px !important;
+  top: 18px !important;
+  z-index: 6 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-height: 30px !important;
+  padding: 0 11px !important;
+  border-radius: 30px !important;
+  background: rgba(32,32,45,0.78) !important;
+  color: var(--white) !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none !important;
+}
+
+.hero-image-dot {
+  width: 6px !important;
+  height: 6px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  background: var(--orange) !important;
+  animation: idealsImageDot 1.5s ease-in-out infinite;
+}
+
+@keyframes idealsImageDot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.hero-badge,
+.hero-floating,
+.hero-dots {
+  z-index: 8 !important;
+}
+
+.hero-badge-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #fff7e5;
+  color: var(--orange);
+}
+
+.hero-badge-two .hero-badge-icon { background: #f0f8ff; }
+.hero-badge-three .hero-badge-icon { background: #effaf4; }
+
+@media (max-width: 850px) {
+  .hero-image-wrapper {
+    inset: 12px !important;
+    border-width: 6px !important;
+    border-radius: 35% 35% 20% 20% !important;
+  }
+
+  .hero-image-wrapper img.hero-image,
+  .hero-image-wrapper .hero-image {
+    object-position: center center !important;
+  }
+
+  .hero-image-label {
+    left: 13px !important;
+    top: 13px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-image-wrapper {
+    inset: 12px !important;
+    border-width: 5px !important;
+  }
+
+  .hero-image-label {
+    left: 10px !important;
+    top: 10px !important;
+    min-height: 27px !important;
+    padding: 0 9px !important;
+    font-size: 8px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-image-wrapper { inset: 9px !important; }
+  .hero-image-label { display: none !important; }
+}
+
