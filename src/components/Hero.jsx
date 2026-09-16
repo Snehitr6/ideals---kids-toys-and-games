@@ -2,141 +2,15 @@ import {
   ArrowRight,
   Sparkles,
   Star,
-  Volume2,
-  VolumeX,
   Truck,
   Heart,
   Palette,
 } from "lucide-react";
 
-import { useEffect, useRef, useState } from "react";
 import { useStore } from "../StoreContext.jsx";
 
 function Hero() {
   const { scrollTo } = useStore();
-
-  const videoRef = useRef(null);
-
-  const [videoReady, setVideoReady] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-
-  useEffect(() => {
-    const video = videoRef.current;
-
-    if (!video) return;
-
-    video.muted = true;
-    video.defaultMuted = true;
-    video.volume = 0;
-
-    const playVideo = async () => {
-      try {
-        video.muted = true;
-        video.volume = 0;
-
-        await video.play();
-
-        setVideoReady(true);
-        setVideoError(false);
-      } catch (error) {
-        console.log("Video autoplay waiting:", error);
-      }
-    };
-
-    const handleLoadedData = () => {
-      setVideoReady(true);
-      setVideoError(false);
-      playVideo();
-    };
-
-    const handleCanPlay = () => {
-      setVideoReady(true);
-      setVideoError(false);
-      playVideo();
-    };
-
-    const handlePlaying = () => {
-      setVideoReady(true);
-      setVideoError(false);
-    };
-
-    const handleError = () => {
-      console.error("Hero video failed to load:", video.error);
-
-      setVideoReady(false);
-      setVideoError(true);
-    };
-
-    video.addEventListener("loadeddata", handleLoadedData);
-    video.addEventListener("canplay", handleCanPlay);
-    video.addEventListener("playing", handlePlaying);
-    video.addEventListener("error", handleError);
-
-    playVideo();
-
-    const handleVisibility = () => {
-      if (!document.hidden) {
-        playVideo();
-      }
-    };
-
-    document.addEventListener(
-      "visibilitychange",
-      handleVisibility
-    );
-
-    return () => {
-      video.removeEventListener(
-        "loadeddata",
-        handleLoadedData
-      );
-
-      video.removeEventListener(
-        "canplay",
-        handleCanPlay
-      );
-
-      video.removeEventListener(
-        "playing",
-        handlePlaying
-      );
-
-      video.removeEventListener(
-        "error",
-        handleError
-      );
-
-      document.removeEventListener(
-        "visibilitychange",
-        handleVisibility
-      );
-    };
-  }, []);
-
-  const toggleSound = async () => {
-    const video = videoRef.current;
-
-    if (!video) return;
-
-    try {
-      if (video.muted) {
-        video.muted = false;
-        video.volume = 1;
-
-        setIsMuted(false);
-
-        await video.play();
-      } else {
-        video.muted = true;
-        video.volume = 0;
-
-        setIsMuted(true);
-      }
-    } catch (error) {
-      console.log("Sound toggle failed:", error);
-    }
-  };
 
   const handleShop = () => {
     scrollTo("shop", "All");
@@ -191,6 +65,8 @@ function Hero() {
 
           </div>
 
+          {/* Rating */}
+
           <div className="hero-rating">
 
             <div className="hero-avatars">
@@ -222,90 +98,32 @@ function Hero() {
 
         </div>
 
-        {/* ================= HERO VIDEO ================= */}
+        {/* ================= HERO IMAGE ================= */}
 
         <div className="hero-visual">
 
           <div className="hero-image-circle">
 
-            <div className="hero-image-wrapper hero-video-wrapper">
+            <div className="hero-image-wrapper">
 
-              <video
-                ref={videoRef}
-                className={`hero-video ${
-                  videoReady ? "video-ready" : ""
-                }`}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                controls={false}
-                disablePictureInPicture
-                disableRemotePlayback
-                aria-label="Kids playing with toys"
-              >
-                <source
-                  src="/kids-playing.mp4"
-                  type="video/mp4"
-                />
+              <img
+                className="hero-image"
+                src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=1000&q=90"
+                alt="Colorful toys for children"
+              />
 
-                Your browser does not support HTML5 video.
-              </video>
+              <div className="hero-image-overlay" />
 
-              <div className="hero-video-overlay" />
-
-              {!videoReady && !videoError && (
-                <div className="hero-video-loading">
-                  <div className="hero-video-spinner" />
-
-                  <span>
-                    Loading playtime...
-                  </span>
-                </div>
-              )}
-
-              {videoError && (
-                <div className="hero-video-fallback">
-                  <span>🧸</span>
-
-                  <strong>
-                    Video unavailable
-                  </strong>
-
-                  <small>
-                    Check public/kids-playing.mp4
-                  </small>
-                </div>
-              )}
-
-              <div className="hero-video-label">
-                <span className="hero-video-dot" />
+              <div className="hero-image-label">
+                <span className="hero-image-dot" />
                 PLAY TIME
               </div>
-
-              <button
-                type="button"
-                className="hero-video-sound"
-                onClick={toggleSound}
-                aria-label={
-                  isMuted
-                    ? "Turn video sound on"
-                    : "Mute video"
-                }
-              >
-                {isMuted ? (
-                  <VolumeX size={15} />
-                ) : (
-                  <Volume2 size={15} />
-                )}
-              </button>
 
             </div>
 
           </div>
 
-          {/* ================= BADGES ================= */}
+          {/* ================= BADGE ONE ================= */}
 
           <div className="hero-badge hero-badge-one">
 
@@ -320,6 +138,8 @@ function Hero() {
 
           </div>
 
+          {/* ================= BADGE TWO ================= */}
+
           <div className="hero-badge hero-badge-two">
 
             <div className="hero-badge-icon">
@@ -332,6 +152,8 @@ function Hero() {
             </div>
 
           </div>
+
+          {/* ================= BADGE THREE ================= */}
 
           <div className="hero-badge hero-badge-three">
 
@@ -346,7 +168,7 @@ function Hero() {
 
           </div>
 
-          {/* ================= FLOATING ELEMENTS ================= */}
+          {/* ================= FLOATING TOYS ================= */}
 
           <span className="hero-floating hero-floating-one">
             🪁
@@ -359,6 +181,8 @@ function Hero() {
           <span className="hero-floating hero-floating-three">
             🧸
           </span>
+
+          {/* ================= DOTS ================= */}
 
           <div className="hero-dots">
             <span />
@@ -396,6 +220,7 @@ function Hero() {
         </div>
 
       </div>
+
     </section>
   );
 }
