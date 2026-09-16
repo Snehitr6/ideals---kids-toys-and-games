@@ -21,10 +21,6 @@ function Hero() {
   const [videoError, setVideoError] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
 
-  /* =========================================================
-     HERO VIDEO
-  ========================================================= */
-
   useEffect(() => {
     const video = videoRef.current;
 
@@ -34,10 +30,9 @@ function Hero() {
     video.defaultMuted = true;
     video.volume = 0;
 
-    const startVideo = async () => {
+    const playVideo = async () => {
       try {
         video.muted = true;
-        video.defaultMuted = true;
         video.volume = 0;
 
         await video.play();
@@ -45,89 +40,44 @@ function Hero() {
         setVideoReady(true);
         setVideoError(false);
       } catch (error) {
-        /*
-          Autoplay can be blocked by some browsers.
-          The video will still start after the browser
-          allows playback or after user interaction.
-        */
-        console.log(
-          "Hero video autoplay waiting:",
-          error
-        );
+        console.log("Video autoplay waiting:", error);
       }
-    };
-
-    const handleLoadedMetadata = () => {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
-    };
-
-    const handleCanPlay = () => {
-      setVideoReady(true);
-      setVideoError(false);
-
-      startVideo();
     };
 
     const handleLoadedData = () => {
       setVideoReady(true);
       setVideoError(false);
+      playVideo();
+    };
 
-      startVideo();
+    const handleCanPlay = () => {
+      setVideoReady(true);
+      setVideoError(false);
+      playVideo();
+    };
+
+    const handlePlaying = () => {
+      setVideoReady(true);
+      setVideoError(false);
     };
 
     const handleError = () => {
-      /*
-        If kids-playing.mp4 does not exist,
-        automatically switch to image fallback.
-      */
-      setVideoError(true);
+      console.error("Hero video failed to load:", video.error);
+
       setVideoReady(false);
+      setVideoError(true);
     };
 
-    video.addEventListener(
-      "loadedmetadata",
-      handleLoadedMetadata
-    );
+    video.addEventListener("loadeddata", handleLoadedData);
+    video.addEventListener("canplay", handleCanPlay);
+    video.addEventListener("playing", handlePlaying);
+    video.addEventListener("error", handleError);
 
-    video.addEventListener(
-      "canplay",
-      handleCanPlay
-    );
+    playVideo();
 
-    video.addEventListener(
-      "loadeddata",
-      handleLoadedData
-    );
-
-    video.addEventListener(
-      "error",
-      handleError
-    );
-
-    /*
-      First autoplay attempt
-    */
-    startVideo();
-
-    /*
-      Retry after browser has loaded the page
-    */
-    const retryOne = setTimeout(() => {
-      startVideo();
-    }, 700);
-
-    const retryTwo = setTimeout(() => {
-      startVideo();
-    }, 1800);
-
-    /*
-      Restart video when returning to the tab
-    */
     const handleVisibility = () => {
       if (!document.hidden) {
-        startVideo();
+        playVideo();
       }
     };
 
@@ -137,12 +87,9 @@ function Hero() {
     );
 
     return () => {
-      clearTimeout(retryOne);
-      clearTimeout(retryTwo);
-
       video.removeEventListener(
-        "loadedmetadata",
-        handleLoadedMetadata
+        "loadeddata",
+        handleLoadedData
       );
 
       video.removeEventListener(
@@ -151,8 +98,8 @@ function Hero() {
       );
 
       video.removeEventListener(
-        "loadeddata",
-        handleLoadedData
+        "playing",
+        handlePlaying
       );
 
       video.removeEventListener(
@@ -167,103 +114,54 @@ function Hero() {
     };
   }, []);
 
-  /* =========================================================
-     KEEP VIDEO PLAYING
-  ========================================================= */
-
-  useEffect(() => {
+  const toggleSound = async () => {
     const video = videoRef.current;
 
     if (!video) return;
 
-    const handlePause = () => {
-      if (!document.hidden && !videoError) {
-        video.play().catch(() => {});
-      }
-    };
+    try {
+      if (video.muted) {
+        video.muted = false;
+        video.volume = 1;
 
-    video.addEventListener(
-      "pause",
-      handlePause
-    );
+        setIsMuted(false);
 
-    return () => {
-      video.removeEventListener(
-        "pause",
-        handlePause
-      );
-    };
-  }, [videoError]);
-
-  /* =========================================================
-     SOUND BUTTON
-  ========================================================= */
-
-  const toggleSound = async () => {
-    const video = videoRef.current;
-
-    if (!video || videoError) return;
-
-    const newMutedState = !video.muted;
-
-    video.muted = newMutedState;
-    video.defaultMuted = newMutedState;
-    video.volume = newMutedState ? 0 : 1;
-
-    setIsMuted(newMutedState);
-
-    if (video.paused) {
-      try {
         await video.play();
-      } catch (error) {
-        console.log(
-          "Video playback waiting:",
-          error
-        );
+      } else {
+        video.muted = true;
+        video.volume = 0;
+
+        setIsMuted(true);
       }
+    } catch (error) {
+      console.log("Sound toggle failed:", error);
     }
   };
-
-  /* =========================================================
-     SHOP
-  ========================================================= */
 
   const handleShop = () => {
     scrollTo("shop", "All");
   };
-
-  /* =========================================================
-     EXPLORE
-  ========================================================= */
 
   const handleExplore = () => {
     scrollTo("categories");
   };
 
   return (
-    <section
-      className="hero-section"
-      id="home"
-    >
+    <section className="hero-section" id="home">
       <div className="hero-container">
 
-        {/* ===================================================
-            LEFT CONTENT
-        =================================================== */}
+        {/* ================= HERO CONTENT ================= */}
 
         <div className="hero-content">
 
           <span className="hero-eyebrow">
             <Sparkles size={14} />
-
             PLAYFUL PICKS FOR LITTLE MINDS
           </span>
 
           <h1>
             Big fun for
-            <span>
-              little minds.
-            </span>
+            <span>little minds.</span>
           </h1>
 
           <p>
@@ -271,10 +169,6 @@ function Hero() {
             to spark imagination, build confidence and
             create unforgettable childhood memories.
           </p>
-
-          {/* =================================================
-              BUTTONS
-          ================================================= */}
 
           <div className="hero-buttons">
 
@@ -284,7 +178,6 @@ function Hero() {
               onClick={handleShop}
             >
               Shop Now
-
               <ArrowRight size={18} />
             </button>
 
@@ -298,36 +191,24 @@ function Hero() {
 
           </div>
 
-          {/* =================================================
-              RATING
-          ================================================= */}
-
           <div className="hero-rating">
 
             <div className="hero-avatars">
-
               <span>👧</span>
-
               <span>👦</span>
-
               <span>🧒</span>
-
             </div>
 
             <div className="hero-rating-info">
 
               <div className="hero-stars">
-
-                {[1, 2, 3, 4, 5].map(
-                  (item) => (
-                    <Star
-                      key={item}
-                      size={14}
-                      fill="currentColor"
-                    />
-                  )
-                )}
-
+                {[1, 2, 3, 4, 5].map((item) => (
+                  <Star
+                    key={item}
+                    size={14}
+                    fill="currentColor"
+                  />
+                ))}
               </div>
 
               <span>
@@ -341,9 +222,7 @@ function Hero() {
 
         </div>
 
-        {/* ===================================================
-            RIGHT VISUAL
-        =================================================== */}
+        {/* ================= HERO VIDEO ================= */}
 
         <div className="hero-visual">
 
@@ -351,35 +230,10 @@ function Hero() {
 
             <div className="hero-image-wrapper hero-video-wrapper">
 
-              {/* =================================================
-                  FALLBACK IMAGE
-                  This is shown automatically if the video
-                  doesn't exist.
-              ================================================= */}
-
-              {videoError && (
-                <img
-                  className="hero-video-fallback-image"
-                  src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=1200&q=85"
-                  alt="Colorful children's toys"
-                />
-              )}
-
-              {/* =================================================
-                  VIDEO
-                  If you later add:
-
-                  public/kids-playing.mp4
-
-                  this video will automatically be used.
-              ================================================= */}
-
               <video
                 ref={videoRef}
                 className={`hero-video ${
-                  videoReady
-                    ? "video-ready"
-                    : ""
+                  videoReady ? "video-ready" : ""
                 }`}
                 autoPlay
                 muted
@@ -396,96 +250,62 @@ function Hero() {
                   type="video/mp4"
                 />
 
-                Your browser does not support
-                HTML5 video.
+                Your browser does not support HTML5 video.
               </video>
-
-              {/* =================================================
-                  OVERLAY
-              ================================================= */}
 
               <div className="hero-video-overlay" />
 
-              {/* =================================================
-                  LOADING
-              ================================================= */}
-
-              {!videoReady &&
-                !videoError && (
-                  <div className="hero-video-loading">
-
-                    <div className="hero-video-spinner" />
-
-                    <span>
-                      Loading playtime...
-                    </span>
-
-                  </div>
-                )}
-
-              {/* =================================================
-                  VIDEO FALLBACK
-              ================================================= */}
-
-              {videoError && (
-                <div className="hero-video-fallback">
+              {!videoReady && !videoError && (
+                <div className="hero-video-loading">
+                  <div className="hero-video-spinner" />
 
                   <span>
-                    🧸
+                    Loading playtime...
                   </span>
-
-                  <strong>
-                    Let&apos;s Play!
-                  </strong>
-
-                  <small>
-                    Fun starts here
-                  </small>
-
                 </div>
               )}
 
-              {/* =================================================
-                  PLAY TIME LABEL
-              ================================================= */}
+              {videoError && (
+                <div className="hero-video-fallback">
+                  <span>🧸</span>
 
-              <div className="hero-video-label">
+                  <strong>
+                    Video unavailable
+                  </strong>
 
-                <span className="hero-video-dot" />
-
-                PLAY TIME
-
-              </div>
-
-              {/* =================================================
-                  SOUND BUTTON
-              ================================================= */}
-
-              {!videoError && (
-                <button
-                  type="button"
-                  className="hero-video-sound"
-                  onClick={toggleSound}
-                  aria-label={
-                    isMuted
-                      ? "Turn sound on"
-                      : "Turn sound off"
-                  }
-                >
-                  {isMuted ? (
-                    <VolumeX size={15} />
-                  ) : (
-                    <Volume2 size={15} />
-                  )}
-                </button>
+                  <small>
+                    Check public/kids-playing.mp4
+                  </small>
+                </div>
               )}
 
+              <div className="hero-video-label">
+                <span className="hero-video-dot" />
+                PLAY TIME
+              </div>
+
+              <button
+                type="button"
+                className="hero-video-sound"
+                onClick={toggleSound}
+                aria-label={
+                  isMuted
+                    ? "Turn video sound on"
+                    : "Mute video"
+                }
+              >
+                {isMuted ? (
+                  <VolumeX size={15} />
+                ) : (
+                  <Volume2 size={15} />
+                )}
+              </button>
+
             </div>
+
           </div>
 
-          {/* ===================================================
-              FLOATING BADGE ONE
-          =================================================== */}
+          {/* ================= BADGES ================= */}
 
           <div className="hero-badge hero-badge-one">
 
@@ -494,22 +314,11 @@ function Hero() {
             </div>
 
             <div>
-
-              <strong>
-                Kids favourite
-              </strong>
-
-              <small>
-                Play &amp; Learn
-              </small>
-
+              <strong>Kids favourite</strong>
+              <small>Play & Learn</small>
             </div>
 
           </div>
-
-          {/* ===================================================
-              FLOATING BADGE TWO
-          =================================================== */}
 
           <div className="hero-badge hero-badge-two">
 
@@ -518,22 +327,11 @@ function Hero() {
             </div>
 
             <div>
-
-              <strong>
-                Creative Play
-              </strong>
-
-              <small>
-                Made for imagination
-              </small>
-
+              <strong>Creative Play</strong>
+              <small>Made for imagination</small>
             </div>
 
           </div>
-
-          {/* ===================================================
-              FLOATING BADGE THREE
-          =================================================== */}
 
           <div className="hero-badge hero-badge-three">
 
@@ -542,22 +340,13 @@ function Hero() {
             </div>
 
             <div>
-
-              <strong>
-                Fast Delivery
-              </strong>
-
-              <small>
-                Happy playtime sooner
-              </small>
-
+              <strong>Fast Delivery</strong>
+              <small>Happy playtime sooner</small>
             </div>
 
           </div>
 
-          {/* ===================================================
-              FLOATING TOYS
-          =================================================== */}
+          {/* ================= FLOATING ELEMENTS ================= */}
 
           <span className="hero-floating hero-floating-one">
             🪁
@@ -571,62 +360,42 @@ function Hero() {
             🧸
           </span>
 
-          {/* ===================================================
-              DOTS
-          =================================================== */}
-
           <div className="hero-dots">
-
             <span />
             <span />
             <span />
             <span />
-
           </div>
 
         </div>
+
       </div>
 
-      {/* =====================================================
-          FEATURE STRIP
-      ===================================================== */}
+      {/* ================= FEATURES ================= */}
 
       <div className="hero-features">
 
         <div className="hero-feature">
-
           <Heart size={15} />
-
           Safe for little ones
-
         </div>
 
         <div className="hero-feature">
-
           <Sparkles size={15} />
-
           Curated with care
-
         </div>
 
         <div className="hero-feature">
-
           <Truck size={15} />
-
-          Fast &amp; easy delivery
-
+          Fast & easy delivery
         </div>
 
         <div className="hero-feature">
-
           <Star size={15} />
-
           Loved by parents
-
         </div>
 
       </div>
-
     </section>
   );
 }
